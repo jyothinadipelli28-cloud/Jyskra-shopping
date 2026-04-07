@@ -9,11 +9,23 @@ const connectDB = require('./config/db');
 const app = express();
 connectDB();
 
+const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
+
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'https://giving-art-production-e95b.up.railway.app'
-  ],
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
@@ -24,7 +36,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'fallback_secret',
-  resave: true,
+  resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGODB_URI,

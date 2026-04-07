@@ -223,11 +223,11 @@ Three-layer strategy:
 
 1. Build command: `npm run build`
 2. Output directory: `dist`
-3. Set environment variable (if not using Vite proxy):
+3. Set environment variable:
    ```
    VITE_API_URL=https://your-backend-domain.com/api
    ```
-4. Update `api.js` baseURL to use `import.meta.env.VITE_API_URL` for production
+4. For Vercel/Netlify SPA routing, this repo already includes rewrite configuration
 
 ---
 
