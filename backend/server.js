@@ -10,7 +10,10 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: [
+    'http://localhost:5173',
+    'https://jyskra-shopping-frontend.up.railway.app'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
@@ -28,10 +31,10 @@ app.use(session({
     ttl: 7 * 24 * 60 * 60
   }),
   cookie: {
-    secure: false,
-    httpOnly: false,
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    sameSite: 'lax'
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
   }
 }));
 
