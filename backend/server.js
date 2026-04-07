@@ -12,7 +12,7 @@ connectDB();
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'https://jyskra-shopping-frontend.up.railway.app'
+    'https://giving-art-production-e95b.up.railway.app'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
