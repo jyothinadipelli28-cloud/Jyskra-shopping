@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const defaultBaseURL = import.meta.env.DEV ? 'http://localhost:5000/api' : '/api';
+const productionApiURL = 'https://jyskra-shopping-production.up.railway.app/api';
+const defaultBaseURL = import.meta.env.DEV ? 'http://localhost:5000/api' : productionApiURL;
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || defaultBaseURL,
